@@ -47,20 +47,25 @@ def get_objects_in_time_interval(start, end):
         abort(response.status_code, f"Error retrieving NEO data: {response.text}")
 
     # Parse response data to extract NEO information
-    data = json.loads(response.text)
-    for date in data['near_earth_objects']:
-        for neo in data['near_earth_objects'][date]:
-            neo_info = {}
-            neo_info['name'] = neo['name']
-            neo_info['size'] = f"{neo['estimated_diameter']['kilometers']['estimated_diameter_max']:.2f} km"
-            neo_info['time'] = neo['close_approach_data'][0]['close_approach_date_full']
-            neo_info['distance'] = f"{neo['close_approach_data'][0]['miss_distance']['kilometers']} km"
-            objects_in_interval.append(neo_info)
+    try:
+        data = json.loads(response.text)
+    except json.JSONDecodeError:
+        abort(400, "Json error")
+    
+    try:
+        for date in data['near_earth_objects']:
+            for neo in data['near_earth_objects'][date]:
+                neo_info = {}
+                neo_info['name'] = neo['name']
+                neo_info['size'] = f"{neo['estimated_diameter']['kilometers']['estimated_diameter_max']:.2f} km"
+                neo_info['time'] = neo['close_approach_data'][0]['close_approach_date_full']
+                neo_info['distance'] = f"{neo['close_approach_data'][0]['miss_distance']['kilometers']} km"
+                objects_in_interval.append(neo_info)
+    except KeyError:
+        abort(400, "Json key error")
+
     return objects_in_interval
 
-
-def subtract_day(date):
-    return (date - timedelta(days=1))
 
 def is_valid_date(date_str):
     try:
@@ -81,7 +86,7 @@ def split_date_interval(start_date, end_date):
     intervals = []
     for split_point_index in range(1,len(interval_split_points)):     
         interval_start = interval_split_points[split_point_index-1]
-        interval_end = subtract_day(interval_split_points[split_point_index])
+        interval_end = interval_split_points[split_point_index] - timedelta(days=1)
 
         interval_start_str = interval_start.strftime('%Y-%m-%d')
         interval_end_str = interval_end.strftime('%Y-%m-%d')
