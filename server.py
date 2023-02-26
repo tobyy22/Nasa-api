@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, date
 
 app = Flask(__name__)
 
-@app.route('/neos', methods=['GET'])
+@app.route('/objects', methods=['GET'])
 def get_neos():
     start_date_str = request.args.get('start_date')
     end_date_str = request.args.get('end_date')
@@ -97,4 +97,3 @@ def split_date_interval(start_date, end_date):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8001)
-    print('SERVER RUNNING')
