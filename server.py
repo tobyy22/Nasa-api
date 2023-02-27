@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify, abort
 import requests
 import json
 from datetime import datetime, timedelta, date
+import os
+
+API_KEY = os.environ.get('NASA_API_KEY')
 
 
 app = Flask(__name__)
@@ -41,7 +44,7 @@ def get_neos():
 def get_objects_in_time_interval(start, end):
 
     objects_in_interval = []
-    response = requests.get(f'https://api.nasa.gov/neo/rest/v1/feed?start_date={start}&end_date={end}&api_key=1282cH6ffy2CJHDGAGpvkmPaqmbhqYyTQ3MjwePk')
+    response = requests.get(f'https://api.nasa.gov/neo/rest/v1/feed?start_date={start}&end_date={end}&api_key={API_KEY}')
     
     if response.status_code != 200:
         abort(response.status_code, f"Error retrieving NEO data: {response.text}")

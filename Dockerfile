@@ -19,5 +19,8 @@ EXPOSE 8001
 ENV PATH="/app:${PATH}"
 ENV PYTHONPATH="/app"
 
+ARG NASA_API_KEY
+ENV NASA_API_KEY ${NASA_API_KEY}
+
 # Start the server
 CMD ["python3", "server.py"]
