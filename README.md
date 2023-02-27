@@ -18,8 +18,10 @@ Implementation:
 * Include a Dockerfile
 
 ## Usage
-- Paste your API key into settings.py
-- Run 'docker-compose up' in the root of the repository It will launch a web application on 127.0.0.1:8001 
+- clone the directory
+- in the root run 'docker build --build-arg NASA_API_KEY={YOUR_API_KEY} -t my-image .'
+- paste your API key instead of {YOUR_API_KEY}
+- Run 'docker run -p 8001:8001 my-image' in the root of the repository It will launch a web application on 127.0.0.1:8001 
 -> It will handle the endpoint described in the assignment
 - Eventually you can use only the Dockerfile
 
