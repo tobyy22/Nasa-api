@@ -45,6 +45,8 @@ def get_objects_in_time_interval(start, end):
 
     objects_in_interval = []
     response = requests.get(f'https://api.nasa.gov/neo/rest/v1/feed?start_date={start}&end_date={end}&api_key={API_KEY}')
+
+    print(response.text)
     
     if response.status_code != 200:
         abort(response.status_code, f"Error retrieving NEO data: {response.text}")
@@ -97,6 +99,12 @@ def split_date_interval(start_date, end_date):
 
     return intervals
 
+def run():
+    if API_KEY is None:
+        print('Cannot run server without api key')
+        return
+    app.run(host='0.0.0.0', port=8001)
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8001)
+    run()

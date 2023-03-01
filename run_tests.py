@@ -3,10 +3,15 @@
 from server import app
 import unittest
 import json
+import os
 
 class TestApp(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
+    
+    def test_api_key_present(self):
+        api_key = os.environ.get("NASA_API_KEY")
+        assert api_key != None
 
     def test_status_code_correct_request(self):
         response = self.app.get('/objects?start_date=2022-02-02&end_date=2022-02-02')
