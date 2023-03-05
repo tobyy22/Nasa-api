@@ -23,7 +23,6 @@ Implementation:
 - paste your API key instead of {YOUR_API_KEY}
 - Run 'docker run -p 8001:8001 my-image' in the root of the repository It will launch a web application on 127.0.0.1:8001 
 -> It will handle the endpoint described in the assignment
-- Eventually you can use only the Dockerfile
 
 ## Testing 
 - to run tests, run 'python3 run_tests.py'
