@@ -37,13 +37,8 @@ class TestApp(unittest.TestCase):
         returned_data = json.loads(response.text)
         with open('test_data.json', 'r') as file:
             compare_data = json.loads(file.read())
-        
-        #this might fail if two different objects have the same distance
-        returned_data = sorted(returned_data, key=lambda x: float(x['distance'].replace(' km', '')))
-        compare_data = sorted(compare_data, key=lambda x: float(x['distance'].replace(' km', '')))
         self.assertEqual(returned_data, compare_data)
         
-
 
 
 
